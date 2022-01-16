@@ -4,22 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameAI.Game.Models.Cards
+namespace GameAI.Game.Models.Cards.CardBuffs
 {
-    public class AttackCard : CardBasis
+    public class AtackBuff : IBuff
     {
-        public override void ApplyBuff(CharacterInformation characterInformation)
+        public void ApplyBuff(CharacterInformation character, CardRareness rareness)
         {
-            switch (CardInformation.Rareness)
+            switch (rareness)
             {
                 case CardRareness.Usual:
-                    characterInformation.Damage *= 1.05;
+                    character.Damage *= 1.05;
                     break;
                 case CardRareness.Rare:
-                    characterInformation.Damage *= 1.1;
+                    character.Damage *= 1.10;
                     break;
                 case CardRareness.Legendary:
-                    characterInformation.Damage *= 1.25;
+                    character.Damage *= 1.25;
                     break;
             }
         }

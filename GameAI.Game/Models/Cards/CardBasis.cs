@@ -1,9 +1,20 @@
-﻿namespace GameAI.Game.Models.Cards
+﻿using System.Collections.Generic;
+using GameAI.Game.Models.Cards.CardBuffs;
+
+namespace GameAI.Game.Models.Cards
 {
-    public abstract class CardBasis
+    public class CardBasis
     {
+        public List<IBuff> Buffs { get; set; }
+
         public CardInfo CardInformation { get; set; }
 
-        public abstract void ApplyBuff(CharacterInformation characterInformation);
+        public void ApplyBuff(CharacterInformation characterInformation)
+        {
+            foreach (var buff in Buffs)
+            {
+                buff.ApplyBuff(characterInformation, CardInformation.Rareness);
+            }
+        }
     }
 }

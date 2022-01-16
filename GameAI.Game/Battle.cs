@@ -27,25 +27,25 @@ namespace GameAI.Game
                 if (i % enemyRegenerationReload == 0)
                 {
                     Enemy.HandleRegeneration();
-                    Log.Add(new TickEvent() {Tick = i, Target = "enemy", Type = TickEventType.Heal});
+                    Log.Add(new TickEvent() {Tick = i, Target = "enemy", Type = TickEventType.Heal , Value = Enemy.Information.Regeneration});
                 }
 
                 if (i % playerRegenerationReload == 0)
                 {
                     Player.HandleRegeneration();
-                    Log.Add(new TickEvent() { Tick = i, Target = "player", Type = TickEventType.Heal });
+                    Log.Add(new TickEvent() { Tick = i, Target = "player", Type = TickEventType.Heal, Value = Enemy.Information.Regeneration});
                 }
 
                 if (i % enemyAttackReload == 0)
                 {
-                    Player.HandleDamage(Enemy.Information.Damage);
-                    Log.Add(new TickEvent() { Tick = i, Target = "player", Type = TickEventType.Hit });
+                    var damage =  Player.HandleDamage(Enemy.Information.Damage);
+                    Log.Add(new TickEvent() { Tick = i, Target = "player", Type = TickEventType.Hit, Value = damage});
                 }
 
                 if (i % playerAttackReload == 0)
                 {
-                    Enemy.HandleDamage(Player.Information.Damage);
-                    Log.Add(new TickEvent() { Tick = i, Target = "enemy", Type = TickEventType.Hit });
+                    var damage = Enemy.HandleDamage(Player.Information.Damage);
+                    Log.Add(new TickEvent() { Tick = i, Target = "enemy", Type = TickEventType.Hit, Value = damage });
                 }
 
                 if (Enemy.Information.HP == 0)

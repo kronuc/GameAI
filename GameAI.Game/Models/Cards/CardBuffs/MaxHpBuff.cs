@@ -4,22 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameAI.Game.Models.Cards
+namespace GameAI.Game.Models.Cards.CardBuffs
 {
-    public class MaxHealthPointCard : CardBasis
+    public class MaxHpBuff : IBuff
     {
-        public override void ApplyBuff(CharacterInformation characterInformation)
+        public void ApplyBuff(CharacterInformation character, CardRareness rareness)
         {
-            switch (CardInformation.Rareness)
+            switch (rareness)
             {
                 case CardRareness.Usual:
-                    characterInformation.MaxHP *= 1.05;
+                    character.MaxHP *= 1.05;
                     break;
                 case CardRareness.Rare:
-                    characterInformation.MaxHP *= 1.1;
+                    character.MaxHP *= 1.10;
                     break;
                 case CardRareness.Legendary:
-                    characterInformation.MaxHP *= 1.25;
+                    character.MaxHP *= 1.25;
                     break;
             }
         }

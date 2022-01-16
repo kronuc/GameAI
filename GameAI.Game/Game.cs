@@ -57,14 +57,30 @@ namespace GameAI.Game
             for (int i = 0; i < 4; i++)
             {
                 _currentEnemyCards[i] = _cardManager.GetCard();
-                result.EnemyCards[i] = _currentEnemyCards[i].CardInformation;
+                _currentEnemyCards[i].CardInformation.Id = i;
+                var cardInfo = _currentEnemyCards[i].CardInformation;
+                result.EnemyCards[i] = new CardInfo()
+                {
+                    Id = i,
+                    Name = cardInfo.Name,
+                    Description = cardInfo.Description,
+                    Rareness = cardInfo.Rareness
+                };
             }
             
             result.PlayerCards = new CardInfo[4];
-            for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
             {
-                _currentPlayerCards[i] = _cardManager.GetCard();
-                result.PlayerCards[i] = _currentPlayerCards[i].CardInformation;
+                _currentPlayerCards[j] = _cardManager.GetCard();
+                _currentPlayerCards[j].CardInformation.Id = j;
+                var cardInfo = _currentPlayerCards[j].CardInformation;
+                result.PlayerCards[j] = new CardInfo()
+                {
+                    Id = j,
+                    Name = cardInfo.Name,
+                    Description = cardInfo.Description,
+                    Rareness = cardInfo.Rareness
+                };
             }
 
             result.Enemy = _enemy.Information;
@@ -98,8 +114,8 @@ namespace GameAI.Game
                     Damage = 10,
                     Defense = 200,
                     AttackSpeed = 100,
-                    Regeneration = 5,
-                    RegenerationSpeed = 50
+                    Regeneration = 8,
+                    RegenerationSpeed = 100
                 }
             };
 
@@ -112,8 +128,8 @@ namespace GameAI.Game
                     Damage = 10,
                     Defense = 200,
                     AttackSpeed = 100,
-                    Regeneration = 5,
-                    RegenerationSpeed = 50
+                    Regeneration = 8,
+                    RegenerationSpeed = 100
                 }
             };
         }

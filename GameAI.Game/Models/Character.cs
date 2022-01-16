@@ -28,13 +28,16 @@ namespace GameAI.Game.Models
             return 10000 / Information.RegenerationSpeed;
         }
 
-        public void HandleDamage(double damage)
+        public double HandleDamage(double damage)
         {
-            this.Information.HP -= damage * (1 - (-100 / ((this.Information.Defense / 10) + 100) + 1));
+            var result = damage * (1 - (-100 / ((this.Information.Defense / 10) + 100) + 1));
+            this.Information.HP -= result;
             if (this.Information.HP < 0) 
             {
                 this.Information.HP = 0;
             }
+
+            return result;
         }
 
         public void HandleRegeneration()
