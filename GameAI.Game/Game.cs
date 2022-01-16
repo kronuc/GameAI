@@ -1,4 +1,5 @@
-﻿using GameAI.Game.Models;
+﻿using System;
+using GameAI.Game.Models;
 using GameAI.Game.Models.Cards;
 
 namespace GameAI.Game
@@ -136,8 +137,77 @@ namespace GameAI.Game
 
         private int ChooseCardForEnemy()
         {
-            return 1;
+            var enemyVariants = ApplyCardds(_enemy.Information, _currentEnemyCards);
+            var playerVariants = ApplyCardds(_player.Information, _currentPlayerCards);
+            var bestChoice = 0;
+            var currentMax = -100d;
+            for (int i = 0; i < 4; i++)
+            {
+                var currentMin = 100d;
+                for (int j = 0; j < 4; j++)
+                {
+                    var evaluation = Evaluate(playerVariants[j], enemyVariants[i]);
+                    if (evaluation < currentMin)
+                        currentMin = evaluation;
+                }
+
+                if (currentMin > currentMax)
+                {
+                    currentMax = currentMin;
+                    bestChoice = i;
+                }
+            }
+            return bestChoice;
         }
+
+        public double Evaluate(CharacterInformation player, CharacterInformation enemy)
+        {
+            var result = 0d;
+            result += EvaluateProperty(player.Damage, enemy.Damage);
+            result += EvaluateProperty(player.Defense, enemy.Defense);
+            result += EvaluateProperty(player.AttackSpeed, enemy.AttackSpeed);
+            result += EvaluateProperty(player.HP / player.MaxHP, enemy.HP / enemy.MaxHP);
+            result += EvaluateProperty(player.MaxHP, enemy.MaxHP);
+            result += EvaluateProperty(player.Regeneration, enemy.Regeneration);
+            result += EvaluateProperty(player.RegenerationSpeed, enemy.RegenerationSpeed);
+            return result / 7;
+        }
+
+        private double EvaluateProperty(double playerProperty, double enemyProperty)
+        {
+            var dif = enemyProperty - playerProperty;
+            var result = dif > 0 ? dif / playerProperty : dif / enemyProperty;
+            result = result >= 1 ? 100 : result * 100;
+            return result;
+        }
+
+        public CharacterInformation CopyCharacter(CharacterInformation character)
+        {
+            var result = new CharacterInformation()
+            {
+                AttackSpeed = character.AttackSpeed,
+                Defense = character.Defense,
+                Damage = character.Damage,
+                HP = character.HP,
+                MaxHP = character.MaxHP,
+                Regeneration = character.Regeneration,
+                RegenerationSpeed = character.RegenerationSpeed
+            };
+            return result;
+        }
+
+        public CharacterInformation[] ApplyCardds(CharacterInformation character, CardBasis[] card)
+        {
+            var result = new CharacterInformation[4];
+            for (int i = 0; i < 4; i++)
+            {
+                result[i] = CopyCharacter(character);
+                card[i].ApplyBuff(result[i]);
+            }
+            return result;
+        }
+
+        
     }
 
     
