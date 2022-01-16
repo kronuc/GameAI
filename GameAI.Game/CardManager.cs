@@ -8,82 +8,92 @@ namespace GameAI.Game
 {
     public class CardManager
     {
-        private readonly CardBasis[] _allCards;
-
-        public CardManager()
-        {
-            _allCards = new CardBasis[7];
-            _allCards[0] = new CardBasis()
-            {
-                CardInformation = new CardInfo()
-                {
-                    Name = "Attack",
-                    Description = "increase attack"
-                },
-                Buffs = new List<IBuff>() { new AtackBuff()}
-            };
-            _allCards[1] = new CardBasis()
-            {
-                CardInformation = new CardInfo()
-                {
-                    Name = "Attack speed",
-                    Description = "increase attack speed"
-                },
-                Buffs = new List<IBuff>() { new AttackSpeedBuff() }
-            };
-            _allCards[2] = new CardBasis()
-            {
-                CardInformation = new CardInfo()
-                {
-                    Name = "Defense",
-                    Description = "increase defense"
-                },
-                Buffs = new List<IBuff>() { new DefenseBuff() }
-            };
-            _allCards[3] = new CardBasis()
-            {
-                CardInformation = new CardInfo()
-                {
-                    Name = "Heal",
-                    Description = "increase heal"
-                },
-                Buffs = new List<IBuff>() { new HealBuff() }
-            };
-            _allCards[4] = new CardBasis()
-            {
-                CardInformation = new CardInfo()
-                {
-                    Name = "Max Hp",
-                    Description = "increase max Hp"
-                },
-                Buffs = new List<IBuff>() { new MaxHpBuff() }
-            };
-            _allCards[5] = new CardBasis()
-            {
-                CardInformation = new CardInfo()
-                {
-                    Name = "Regeneration speed",
-                    Description = "increase regeneration speed"
-                },
-                Buffs = new List<IBuff>() { new RegenerationSpeedBuff() }
-            };
-            _allCards[6] = new CardBasis()
-            {
-                CardInformation = new CardInfo()
-                {
-                    Name = "Regeneration",
-                    Description = "increase regeneration"
-                },
-                Buffs = new List<IBuff>() { new RegenerationBuff() }
-            };
-        }
-
-
         public CardBasis  GetCard()
         {
-            var amountOfCards = _allCards.Length;
             var random = new Random();
-            var card = _allCards[random.Next() % amountOfCards];
+            var number = random.Next() % 7;
+            CardBasis card  = new CardBasis() { CardInformation = new CardInfo() };
+            switch (number)
+            {
+                case 0:
+                    card = new CardBasis()
+                    {
+                        CardInformation = new CardInfo()
+                        {
+                            Name = "Attack",
+                            Description = "increase attack"
+                        },
+                        Buffs = new List<IBuff>() { new AtackBuff() }
+                    };
+                    break;
+                case 1:
+                    card = new CardBasis()
+                    {
+                        CardInformation = new CardInfo()
+                        {
+                            Name = "Attack speed",
+                            Description = "increase attack speed"
+                        },
+                        Buffs = new List<IBuff>() { new AttackSpeedBuff() }
+                    };
+                    break;
+                case 2:
+                    card = new CardBasis()
+                    {
+                        CardInformation = new CardInfo()
+                        {
+                            Name = "Defense",
+                            Description = "increase defense"
+                        },
+                        Buffs = new List<IBuff>() { new DefenseBuff() }
+                    };
+                    break;
+                case 3:
+                    card = new CardBasis()
+                    {
+                        CardInformation = new CardInfo()
+                        {
+                            Name = "Heal",
+                            Description = "heal you"
+                        },
+                        Buffs = new List<IBuff>() { new HealBuff() }
+                    };
+                    break;
+                case 4:
+                    card = new CardBasis()
+                    {
+                        CardInformation = new CardInfo()
+                        {
+                            Name = "Max Hp",
+                            Description = "increase max Hp"
+                        },
+                        Buffs = new List<IBuff>() { new MaxHpBuff() }
+                    };
+                    break;
+                case 5:
+                    card = new CardBasis()
+                    {
+                        CardInformation = new CardInfo()
+                        {
+                            Name = "Regeneration speed",
+                            Description = "increase regeneration speed"
+                        },
+                        Buffs = new List<IBuff>() { new RegenerationSpeedBuff() }
+                    };
+                    break;
+                case 6:
+                    card = new CardBasis()
+                    {
+                        CardInformation = new CardInfo()
+                        {
+                            Name = "Regeneration",
+                            Description = "increase regeneration"
+                        },
+                        Buffs = new List<IBuff>() { new RegenerationBuff() }
+                    };
+                    break;
+            }
+
             card.CardInformation.Rareness = DefineCardRareness();
             return card;
         }

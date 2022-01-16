@@ -30,6 +30,7 @@ namespace GameAI.Game
             var battleResult = GameStatus.Undefined.ToString();
             if (_turn != 0)
             {
+                var enemyCard = ChooseCardForEnemy();
                 if (selectedCardId > -1 & selectedCardId < 4)
                 {
                     _player.ApplyBuff(_currentPlayerCards[selectedCardId]);
@@ -39,7 +40,6 @@ namespace GameAI.Game
                     _player.ApplyBuff(_currentPlayerCards[0]);
                 }
 
-                var enemyCard = ChooseCardForEnemy();
                 _enemy.ApplyBuff(_currentEnemyCards[enemyCard]);
 
                 _battle.Enemy = _enemy;
@@ -166,13 +166,12 @@ namespace GameAI.Game
             result += EvaluateProperty(player.Damage, enemy.Damage);
             result += EvaluateProperty(player.Defense, enemy.Defense);
             result += EvaluateProperty(player.AttackSpeed, enemy.AttackSpeed);
-            result += EvaluateProperty(player.HP / player.MaxHP, enemy.HP / enemy.MaxHP);
+            result += 5 * EvaluateProperty(player.HP / player.MaxHP, enemy.HP / enemy.MaxHP);
             result += EvaluateProperty(player.MaxHP, enemy.MaxHP);
             result += EvaluateProperty(player.Regeneration, enemy.Regeneration);
-            result += EvaluateProperty(player.RegenerationSpeed, enemy.RegenerationSpeed);
-            return result / 7;
+            return result / 11;
         }
-
+        
         private double EvaluateProperty(double playerProperty, double enemyProperty)
         {
             var dif = enemyProperty - playerProperty;
